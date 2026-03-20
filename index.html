@@ -16,6 +16,7 @@
 <link rel="stylesheet" href="css/writer.css">
 <link rel="stylesheet" href="css/habit.css">
 <link rel="stylesheet" href="css/solar.css">
+<link rel="stylesheet" href="css/firebase-ui.css">
 </head>
 <body>
 
@@ -35,13 +36,21 @@
     <li><a href="#">Builders</a></li>
   </ul>
   <div class="nav-right">
-    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme">
-      <span id="toggleEmoji">☀️</span>
-      <div class="toggle-track"><div class="toggle-thumb"></div></div>
-      <span id="toggleLabel">Day</span>
-    </button>
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle"><span id="toggleEmoji">☀️</span> <span id="toggleLabel">Day</span></button>
     <button class="btn-ghost" onclick="openModal()">Share a Vibe</button>
-    <button class="btn-primary" onclick="openLogin()">Sign In</button>
+    <button class="btn-primary" id="signInBtn" onclick="openLogin()">Sign In</button>
+    <div class="user-nav" id="userNav" style="display:none" onclick="toggleUserMenu()">
+      <img class="user-avatar-nav" id="userAvatarNav" src="" alt="">
+      <span class="user-nav-name" id="userNavName"></span>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="user-dropdown" id="userDropdown">
+      <div class="user-dropdown-header" id="userDropdownHeader"></div>
+      <button class="user-dropdown-item" onclick="openMyVibes()">📋 My Vibes</button>
+      <button class="user-dropdown-item" onclick="openProfileEdit()">✏️ Edit Profile</button>
+      <div class="user-dropdown-divider"></div>
+      <button class="user-dropdown-item user-dropdown-signout" onclick="signOutUser()">Sign Out</button>
+    </div>
   </div>
 </nav>
 
@@ -140,267 +149,13 @@
     <a href="#" class="sec-link">See all →</a>
   </div>
 
-  <div class="grid">
-
-    <!-- CARD 1 FEATURED — SAAS DASHBOARD (interactive) -->
-    <div class="card feat" onclick="openSaaS()">
-      <div class="card-prev p1">
-        <div class="badge tl">⚡ 99 vibe score</div>
-        <div class="badge tr">"build me a saas dashboard..."</div>
-        <div style="width:84%;display:flex;gap:12px">
-          <div class="mcard" style="flex:1;padding:16px">
-            <div style="font-size:9px;color:var(--ink-muted);font-family:'DM Mono',monospace;margin-bottom:7px;letter-spacing:1px">REVENUE</div>
-            <div style="font-size:22px;font-weight:700;letter-spacing:-1px;font-family:'Fraunces',serif;color:var(--ink)">$48,291</div>
-            <div style="font-size:10px;color:#16a34a;margin-top:3px;font-family:'DM Mono',monospace">↑ 12.4%</div>
-            <div style="display:flex;align-items:flex-end;gap:3px;height:50px;margin-top:12px">
-              <div style="flex:1;height:40%;background:var(--accent);opacity:0.3;border-radius:2px 2px 0 0"></div>
-              <div style="flex:1;height:65%;background:var(--accent);opacity:0.4;border-radius:2px 2px 0 0"></div>
-              <div style="flex:1;height:45%;background:var(--accent);opacity:0.3;border-radius:2px 2px 0 0"></div>
-              <div style="flex:1;height:80%;background:var(--accent);opacity:0.7;border-radius:2px 2px 0 0"></div>
-              <div style="flex:1;height:60%;background:var(--accent);opacity:0.4;border-radius:2px 2px 0 0"></div>
-              <div style="flex:1;height:100%;background:var(--accent);border-radius:2px 2px 0 0"></div>
-              <div style="flex:1;height:75%;background:var(--accent);opacity:0.5;border-radius:2px 2px 0 0"></div>
-            </div>
-          </div>
-          <div style="flex:1;display:flex;flex-direction:column;gap:8px">
-            <div class="mcard" style="flex:1;padding:12px">
-              <div style="font-size:9px;color:var(--ink-muted);font-family:'DM Mono',monospace;margin-bottom:5px;letter-spacing:1px">USERS</div>
-              <div style="font-size:18px;font-weight:700;letter-spacing:-0.8px;font-family:'Fraunces',serif;color:var(--ink)">12,847</div>
-              <div style="font-size:10px;color:#16a34a;font-family:'DM Mono',monospace">↑ 8.1%</div>
-            </div>
-            <div class="mcard" style="flex:1;padding:12px">
-              <div style="font-size:9px;color:var(--ink-muted);font-family:'DM Mono',monospace;margin-bottom:5px;letter-spacing:1px">CHURN</div>
-              <div style="font-size:18px;font-weight:700;letter-spacing:-0.8px;font-family:'Fraunces',serif;color:var(--ink)">2.3%</div>
-              <div style="font-size:10px;color:#dc2626;font-family:'DM Mono',monospace">↑ 0.2%</div>
-            </div>
-          </div>
-        </div>
-        <div class="overlay"><div class="ov-btns">
-          <button class="ov-btn v" onclick="event.stopPropagation();openSaaS()">Open Dashboard</button>
-          <button class="ov-btn l" onclick="event.stopPropagation();likeCard(this)">❤ 2,847</button>
-        </div></div>
-      </div>
-      <div class="card-info">
-        <div class="tags"><span class="tag">saas</span><span class="tag">dashboard</span><span class="tag">react</span><span class="tag">shadcn</span></div>
-        <div class="card-title">Full SaaS Analytics Dashboard — 1 Prompt, 40 Minutes</div>
-        <div class="card-meta">
-          <div class="author"><div class="av" style="background:linear-gradient(135deg,#6366f1,#818cf8);color:white">MK</div><span class="author-name">@mkovalenko</span></div>
-          <div class="cstats">
-            <span class="cstat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>18.4k</span>
-            <span class="cstat"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>2.8k</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- CARD 2 — BUDGET TRACKER (interactive) -->
-    <div class="card" onclick="openBudget()">
-      <div class="card-prev p2">
-        <div class="badge tr">"personal finance..."</div>
-        <div class="mcard" style="width:82%;padding:18px">
-          <div style="font-size:9px;color:var(--ink-muted);font-family:'DM Mono',monospace;margin-bottom:12px;letter-spacing:1px">MONTHLY BUDGET</div>
-          <div style="display:flex;flex-direction:column;gap:9px">
-            <div><div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:4px;font-family:'DM Mono',monospace;color:var(--ink)"><span>Housing</span><span style="color:var(--ink-muted)">$1,800</span></div><div style="height:5px;background:var(--accent-glow);border-radius:3px;border:1px solid var(--border-em)"><div style="height:100%;width:72%;background:var(--accent);border-radius:3px;opacity:0.7"></div></div></div>
-            <div><div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:4px;font-family:'DM Mono',monospace;color:var(--ink)"><span>Food</span><span style="color:var(--ink-muted)">$620</span></div><div style="height:5px;background:rgba(22,163,74,0.1);border-radius:3px"><div style="height:100%;width:48%;background:#16a34a;border-radius:3px;opacity:0.7"></div></div></div>
-            <div><div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:4px;font-family:'DM Mono',monospace;color:var(--ink)"><span>Claude API</span><span style="color:#dc2626;font-size:10px">over budget 💀</span></div><div style="height:5px;background:rgba(220,38,38,0.1);border-radius:3px"><div style="height:100%;width:100%;background:#dc2626;border-radius:3px;opacity:0.7"></div></div></div>
-          </div>
-        </div>
-        <div class="overlay"><div class="ov-btns">
-          <button class="ov-btn v" onclick="event.stopPropagation();openBudget()">Open App</button>
-          <button class="ov-btn l" onclick="event.stopPropagation();likeCard(this)">❤ 1,203</button>
-        </div></div>
-      </div>
-      <div class="card-info">
-        <div class="tags"><span class="tag">finance</span><span class="tag">vanilla js</span></div>
-        <div class="card-title">Budget Tracker (Claude API: Over Budget lol)</div>
-        <div class="card-meta">
-          <div class="author"><div class="av" style="background:linear-gradient(135deg,#f59e0b,#fbbf24);color:#1A1612">JT</div><span class="author-name">@jtanaka</span></div>
-          <div class="cstats"><span class="cstat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>9.2k</span><span class="cstat"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>1.2k</span></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- CARD 3 — SNAKE GAME (interactive) -->
-    <div class="card" onclick="openSnake()">
-      <div class="card-prev p3">
-        <div class="badge tl">🎮 game</div>
-        <div class="mcard" style="width:82%;overflow:hidden">
-          <div style="padding:8px 14px;background:var(--surface2);border-bottom:1px solid var(--border);font-family:'DM Mono',monospace;font-size:10px;color:var(--ink-muted)">terminal</div>
-          <div style="padding:14px;font-family:'DM Mono',monospace;font-size:11px;line-height:1.8;color:var(--ink)">
-            <div><span style="color:#16a34a">➜</span> <span style="color:var(--accent)">claudicted</span> create game</div>
-            <div style="color:var(--ink-muted)">Building snake game...</div>
-            <div><span style="color:#16a34a">✓</span> snake.js created</div>
-            <div style="color:var(--accent)">🎮 Ready in 2m 14s</div>
-          </div>
-        </div>
-        <div class="overlay"><div class="ov-btns">
-          <button class="ov-btn v" onclick="event.stopPropagation();openSnake()">Play Now</button>
-          <button class="ov-btn l" onclick="event.stopPropagation();likeCard(this)">❤ 743</button>
-        </div></div>
-      </div>
-      <div class="card-info">
-        <div class="tags"><span class="tag">game</span><span class="tag">canvas</span><span class="tag">2m build</span></div>
-        <div class="card-title">Multiplayer Snake with Leaderboard, 2 Prompts</div>
-        <div class="card-meta">
-          <div class="author"><div class="av" style="background:linear-gradient(135deg,#16a34a,#4ade80);color:white">AS</div><span class="author-name">@asmithdev</span></div>
-          <div class="cstats"><span class="cstat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>4.7k</span><span class="cstat"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>743</span></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- CARD 4 — RECIPE APP -->
-    <div class="card" onclick="openRecipe()">
-      <div class="card-prev p4">
-        <div class="badge tr">"design a recipe app..."</div>
-        <div class="mcard" style="width:76%;overflow:hidden">
-          <div style="padding:13px 15px;border-bottom:1px solid var(--border)">
-            <div style="font-size:9px;color:var(--accent);font-family:'DM Mono',monospace;margin-bottom:4px;letter-spacing:1px">TODAY'S RECIPE</div>
-            <div style="font-size:13px;font-weight:600;color:var(--ink);font-family:'Fraunces',serif">Miso Ramen Bowl</div>
-            <div style="font-size:10px;color:var(--ink-muted);font-family:'DM Mono',monospace">45 min · 2 servings</div>
-          </div>
-          <div style="padding:10px 15px;display:flex;gap:4px;flex-wrap:wrap">
-            <span style="padding:2px 7px;background:var(--tag-bg);border-radius:4px;font-size:9px;color:var(--tag-color);font-family:'DM Mono',monospace;border:1px solid var(--tag-border)">noodles</span>
-            <span style="padding:2px 7px;background:var(--tag-bg);border-radius:4px;font-size:9px;color:var(--tag-color);font-family:'DM Mono',monospace;border:1px solid var(--tag-border)">miso</span>
-            <span style="padding:2px 7px;background:var(--tag-bg);border-radius:4px;font-size:9px;color:var(--tag-color);font-family:'DM Mono',monospace;border:1px solid var(--tag-border)">egg</span>
-          </div>
-        </div>
-        <div class="overlay"><div class="ov-btns"><button class="ov-btn v">View Project</button><button class="ov-btn l" onclick="event.stopPropagation();likeCard(this)">❤ 2,110</button></div></div>
-      </div>
-      <div class="card-info">
-        <div class="tags"><span class="tag">food</span><span class="tag">mobile ui</span><span class="tag">tailwind</span></div>
-        <div class="card-title">AI Recipe App with Smart Pantry Detection</div>
-        <div class="card-meta">
-          <div class="author"><div class="av" style="background:linear-gradient(135deg,#ec4899,#f472b6);color:white">PL</div><span class="author-name">@priyalives</span></div>
-          <div class="cstats"><span class="cstat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>11.3k</span><span class="cstat"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>2.1k</span></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- CARD 5 — PORTFOLIO -->
-    <div class="card" onclick="openPortfolio()">
-      <div class="card-prev p5">
-        <div class="badge tl">🌊 smooth</div>
-        <div class="mcard" style="width:78%;padding:22px;text-align:center">
-          <div style="font-size:9px;color:var(--ink-muted);font-family:'DM Mono',monospace;letter-spacing:2px;margin-bottom:12px">PORTFOLIO · V3</div>
-          <div style="font-family:'Fraunces',serif;font-size:24px;font-weight:600;color:var(--ink);letter-spacing:-1px;line-height:1">Daniel<br><em style="color:var(--accent);font-style:italic">Osei</em></div>
-          <div style="font-size:10px;color:var(--ink-muted);margin-top:10px;font-family:'DM Mono',monospace">Designer × Vibe Coder</div>
-          <div style="display:flex;justify-content:center;gap:7px;margin-top:14px">
-            <div style="width:7px;height:7px;border-radius:50%;background:var(--ink)"></div>
-            <div style="width:7px;height:7px;border-radius:50%;background:var(--border)"></div>
-            <div style="width:7px;height:7px;border-radius:50%;background:var(--border)"></div>
-          </div>
-        </div>
-        <div class="overlay"><div class="ov-btns"><button class="ov-btn v">View Project</button><button class="ov-btn l" onclick="event.stopPropagation();likeCard(this)">❤ 1,488</button></div></div>
-      </div>
-      <div class="card-info">
-        <div class="tags"><span class="tag">portfolio</span><span class="tag">motion</span><span class="tag">gsap</span></div>
-        <div class="card-title">Animated Portfolio — Told Claude My Aesthetic, Done</div>
-        <div class="card-meta">
-          <div class="author"><div class="av" style="background:linear-gradient(135deg,#0ea5e9,#38bdf8);color:white">DO</div><span class="author-name">@danielosei</span></div>
-          <div class="cstats"><span class="cstat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>6.8k</span><span class="cstat"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>1.5k</span></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- CARD 6 — WRITING COACH -->
-    <div class="card" onclick="openWriter()">
-      <div class="card-prev p6">
-        <div class="mcard" style="width:82%;padding:16px">
-          <div style="font-size:9px;color:var(--ink-muted);font-family:'DM Mono',monospace;margin-bottom:10px;letter-spacing:1px">AI WRITING COACH</div>
-          <div style="background:var(--accent-glow);border-radius:7px;padding:10px;border-left:2px solid var(--accent);margin-bottom:10px">
-            <div style="font-size:11px;color:var(--ink);line-height:1.6;font-family:'DM Mono',monospace">The quick brown fox<span style="border-right:1.5px solid var(--accent);animation:blink 1s infinite">|</span></div>
-          </div>
-          <div style="display:flex;gap:6px">
-            <div style="flex:1;background:rgba(22,163,74,0.08);border-radius:6px;padding:7px;text-align:center;border:1px solid rgba(22,163,74,0.15)"><div style="font-size:15px;font-weight:700;color:#16a34a;font-family:'Fraunces',serif">92</div><div style="font-size:8px;color:var(--ink-muted);font-family:'DM Mono',monospace">CLARITY</div></div>
-            <div style="flex:1;background:rgba(37,99,235,0.08);border-radius:6px;padding:7px;text-align:center;border:1px solid rgba(37,99,235,0.15)"><div style="font-size:15px;font-weight:700;color:#2563eb;font-family:'Fraunces',serif">87</div><div style="font-size:8px;color:var(--ink-muted);font-family:'DM Mono',monospace">FLOW</div></div>
-            <div style="flex:1;background:var(--accent-glow);border-radius:6px;padding:7px;text-align:center;border:1px solid var(--border-em)"><div style="font-size:15px;font-weight:700;color:var(--accent);font-family:'Fraunces',serif">94</div><div style="font-size:8px;color:var(--ink-muted);font-family:'DM Mono',monospace">VIBE</div></div>
-          </div>
-        </div>
-        <div class="overlay"><div class="ov-btns"><button class="ov-btn v">View Project</button><button class="ov-btn l" onclick="event.stopPropagation();likeCard(this)">❤ 976</button></div></div>
-      </div>
-      <div class="card-info">
-        <div class="tags"><span class="tag">writing</span><span class="tag">ai tool</span></div>
-        <div class="card-title">Real-time Writing Coach with Vibe Score™</div>
-        <div class="card-meta">
-          <div class="author"><div class="av" style="background:linear-gradient(135deg,#8b5cf6,#a78bfa);color:white">NR</div><span class="author-name">@nrachelw</span></div>
-          <div class="cstats"><span class="cstat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>7.1k</span><span class="cstat"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>976</span></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- CARD 7 — HABIT TRACKER -->
-    <div class="card" onclick="openHabit()">
-      <div class="card-prev p7">
-        <div class="badge tr">"make me a habit tracker..."</div>
-        <div class="mcard" style="width:80%;padding:16px">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-            <div style="font-size:12px;font-weight:600;color:var(--ink);font-family:'Fraunces',serif">Nov 2024</div>
-            <div style="font-size:10px;color:var(--accent);font-family:'DM Mono',monospace">14 streak 🔥</div>
-          </div>
-          <div id="habitGrid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px"></div>
-        </div>
-        <div class="overlay"><div class="ov-btns"><button class="ov-btn v">View Project</button><button class="ov-btn l" onclick="event.stopPropagation();likeCard(this)">❤ 1,734</button></div></div>
-      </div>
-      <div class="card-info">
-        <div class="tags"><span class="tag">habits</span><span class="tag">svelte</span></div>
-        <div class="card-title">Habit Tracker with Streak Detection & Shame Mode</div>
-        <div class="card-meta">
-          <div class="author"><div class="av" style="background:linear-gradient(135deg,#f59e0b,#fbbf24);color:#1A1612">KN</div><span class="author-name">@knewton</span></div>
-          <div class="cstats"><span class="cstat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>8.9k</span><span class="cstat"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>1.7k</span></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- CARD 8 — SOLAR SYSTEM -->
-    <div class="card" onclick="openSolar()">
-      <div class="card-prev p8">
-        <div class="badge tl">🤯 wild</div>
-        <div class="mcard" style="width:76%;padding:18px;text-align:center">
-          <div style="font-size:9px;color:var(--ink-muted);font-family:'DM Mono',monospace;letter-spacing:2px;margin-bottom:14px">SOLAR SYSTEM</div>
-          <div style="position:relative;width:100px;height:100px;margin:0 auto">
-            <div style="position:absolute;inset:0;border-radius:50%;border:1px solid var(--border)"></div>
-            <div style="position:absolute;inset:20px;border-radius:50%;border:1px solid var(--border)"></div>
-            <div style="position:absolute;inset:38px;border-radius:50%;background:linear-gradient(135deg,#fbbf24,#f59e0b)"></div>
-            <div style="position:absolute;top:5px;left:50%;width:7px;height:7px;background:#3b82f6;border-radius:50%;transform:translateX(-50%)"></div>
-            <div style="position:absolute;bottom:9px;right:13px;width:5px;height:5px;background:#ef4444;border-radius:50%"></div>
-          </div>
-          <div style="font-size:9px;color:var(--ink-muted);margin-top:12px;font-family:'DM Mono',monospace">interactive · real scale</div>
-        </div>
-        <div class="overlay"><div class="ov-btns"><button class="ov-btn v">View Project</button><button class="ov-btn l" onclick="event.stopPropagation();likeCard(this)">❤ 3,291</button></div></div>
-      </div>
-      <div class="card-info">
-        <div class="tags"><span class="tag">3d</span><span class="tag">three.js</span><span class="tag">science</span></div>
-        <div class="card-title">Interactive Solar System at Real Scale — WebGL</div>
-        <div class="card-meta">
-          <div class="author"><div class="av" style="background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white">RV</div><span class="author-name">@rvega</span></div>
-          <div class="cstats"><span class="cstat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>22.1k</span><span class="cstat"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>3.3k</span></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- CARD 9 — TODO APP -->
-    <div class="card" onclick="openTodo()">
-      <div class="card-prev p9">
-        <div class="mcard" style="width:76%;padding:18px">
-          <div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:12px;font-family:'Fraunces',serif;letter-spacing:-0.3px">Today</div>
-          <div style="display:flex;flex-direction:column;gap:9px">
-            <div style="display:flex;align-items:center;gap:9px"><div style="width:15px;height:15px;border-radius:50%;background:var(--ink);flex-shrink:0;display:flex;align-items:center;justify-content:center"><svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><span style="font-size:11px;color:var(--ink-muted);text-decoration:line-through;font-family:'DM Mono',monospace">ship vibe project</span></div>
-            <div style="display:flex;align-items:center;gap:9px"><div style="width:15px;height:15px;border-radius:50%;border:1.5px solid var(--border);flex-shrink:0"></div><span style="font-size:11px;color:var(--ink);font-family:'DM Mono',monospace">touch grass</span></div>
-            <div style="display:flex;align-items:center;gap:9px"><div style="width:15px;height:15px;border-radius:50%;border:1.5px solid var(--border);flex-shrink:0"></div><span style="font-size:11px;color:var(--ink);font-family:'DM Mono',monospace">one more prompt...</span></div>
-          </div>
-        </div>
-        <div class="overlay"><div class="ov-btns"><button class="ov-btn v">View Project</button><button class="ov-btn l" onclick="event.stopPropagation();likeCard(this)">❤ 567</button></div></div>
-      </div>
-      <div class="card-info">
-        <div class="tags"><span class="tag">todo</span><span class="tag">minimal</span></div>
-        <div class="card-title">The Most Beautiful Todo App That's Laughing at You</div>
-        <div class="card-meta">
-          <div class="author"><div class="av" style="background:var(--ink);color:var(--bg)">ZH</div><span class="author-name">@zhuang_h</span></div>
-          <div class="cstats"><span class="cstat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>3.2k</span><span class="cstat"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>567</span></div>
-        </div>
-      </div>
-    </div>
-
+  <div class="grid" id="cardGrid">
+    <div class="skeleton-card"></div>
+    <div class="skeleton-card"></div>
+    <div class="skeleton-card"></div>
+    <div class="skeleton-card"></div>
+    <div class="skeleton-card"></div>
+    <div class="skeleton-card"></div>
   </div>
 
   <!-- CTA -->
@@ -427,10 +182,11 @@
     <button class="m-close" onclick="closeModal()">×</button>
     <h3>Share your <em>vibe</em></h3>
     <p>Tell us what you built, paste your prompt, show the world what's possible with Claude.</p>
-    <div class="mf"><label>Project Title</label><input type="text" placeholder="I built X in Y prompts and now I'm scared"></div>
-    <div class="mf"><label>The Prompt That Started It All</label><textarea rows="3" placeholder='"Make me a SaaS dashboard with dark mode, real-time analytics..."'></textarea></div>
-    <div class="mf"><label>Live URL</label><input type="text" placeholder="https://..."></div>
-    <div class="mf"><label>Tags</label><input type="text" placeholder="dashboard, react, shadcn"></div>
+    <div class="mf"><label>Project Title</label><input type="text" id="vibeTitle" placeholder="I built X in Y prompts and now I'm scared"></div>
+    <div class="mf"><label>The Prompt That Started It All</label><textarea rows="3" id="vibePrompt" placeholder='"Make me a SaaS dashboard with dark mode, real-time analytics..."'></textarea></div>
+    <div class="mf"><label>Description</label><textarea rows="2" id="vibeDescription" placeholder="What does it do? How long did it take? Any surprises?"></textarea></div>
+    <div class="mf"><label>Live URL</label><input type="text" id="vibeUrl" placeholder="https://..."></div>
+    <div class="mf"><label>Tags</label><input type="text" id="vibeTags" placeholder="dashboard, react, shadcn"></div>
     <div class="m-actions">
       <button class="btn-ghost" onclick="closeModal()">Cancel</button>
       <button class="btn-primary" onclick="submitVibe()">Post My Vibe 🔥</button>
@@ -440,17 +196,100 @@
 
 <!-- LOGIN MODAL -->
 <div class="modal-bg" id="loginModal" onclick="if(event.target===this)closeLogin()">
-  <div class="modal" style="max-width:420px">
+  <div class="modal" style="max-width:420px;text-align:center">
     <button class="m-close" onclick="closeLogin()">×</button>
-    <h3>Welcome <em>back</em></h3>
-    <p>Sign in to your Claudicted account to manage the site together.</p>
-    <div class="mf"><label>Email</label><input type="email" id="loginEmail" placeholder="danny@fpes.ca" oninput="checkLoginHint()"></div>
-    <div class="mf"><label>Password</label><input type="password" id="loginPassword" placeholder="••••••••"></div>
-    <div id="loginHint" style="display:none;padding:10px 14px;background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.2);border-radius:8px;font-size:12px;color:#818cf8;font-family:'DM Mono',monospace;margin-bottom:4px">👋 Hey Danny! Enter your password to continue.</div>
-    <div id="loginError" style="display:none;padding:10px 14px;background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.2);border-radius:8px;font-size:12px;color:#dc2626;font-family:'DM Mono',monospace;margin-bottom:4px">Incorrect email or password.</div>
+    <div style="font-size:40px;margin-bottom:8px">🔥</div>
+    <h3>Join the <em>vibe</em></h3>
+    <p>Sign in to share your builds, like projects, and join the community of vibe coders.</p>
+    <button class="google-btn" onclick="signInWithGoogle()">
+      <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+      Continue with Google
+    </button>
+    <p style="font-size:11px;color:var(--ink-muted);margin-top:16px">By signing in, you agree to share vibes responsibly ✌️</p>
+  </div>
+</div>
+
+<!-- PROFILE SETUP MODAL -->
+<div class="modal-bg" id="profileSetupModal" onclick="if(event.target===this)return">
+  <div class="modal" style="max-width:460px">
+    <h3>Complete your <em>profile</em></h3>
+    <p>Pick a username and tell the world who you are.</p>
+    <div style="display:flex;justify-content:center;margin:16px 0">
+      <div class="profile-avatar-edit" id="setupAvatarPreview" onclick="document.getElementById('setupAvatarInput').click()">
+        <img id="setupAvatarImg" src="" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%">
+        <div class="profile-avatar-overlay">📷</div>
+      </div>
+      <input type="file" id="setupAvatarInput" accept="image/*" style="display:none" onchange="previewAvatar(this,'setupAvatarImg')">
+    </div>
+    <div class="mf"><label>Display Name</label><input type="text" id="setupDisplayName" placeholder="Your Name"></div>
+    <div class="mf"><label>Username</label><div class="username-input-wrap"><span class="username-prefix">@</span><input type="text" id="setupUsername" placeholder="vibemaster" oninput="checkUsernameAvail()"><span class="username-status" id="usernameStatus"></span></div></div>
+    <div class="mf"><label>Bio</label><textarea rows="2" id="setupBio" placeholder="What do you vibe code?" maxlength="160"></textarea></div>
     <div class="m-actions">
-      <button class="btn-ghost" onclick="closeLogin()">Cancel</button>
-      <button class="btn-primary" onclick="doLogin()">Sign In</button>
+      <button class="btn-primary" onclick="saveProfileSetup()" id="setupSaveBtn">Complete Profile 🔥</button>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE EDIT MODAL -->
+<div class="modal-bg" id="profileEditModal" onclick="if(event.target===this)closeProfileEdit()">
+  <div class="modal" style="max-width:460px">
+    <button class="m-close" onclick="closeProfileEdit()">×</button>
+    <h3>Edit <em>profile</em></h3>
+    <div style="display:flex;justify-content:center;margin:16px 0">
+      <div class="profile-avatar-edit" id="editAvatarPreview" onclick="document.getElementById('editAvatarInput').click()">
+        <img id="editAvatarImg" src="" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%">
+        <div class="profile-avatar-overlay">📷</div>
+      </div>
+      <input type="file" id="editAvatarInput" accept="image/*" style="display:none" onchange="previewAvatar(this,'editAvatarImg')">
+    </div>
+    <div class="mf"><label>Display Name</label><input type="text" id="editDisplayName"></div>
+    <div class="mf"><label>Username</label><div class="username-input-wrap"><span class="username-prefix">@</span><input type="text" id="editUsername" oninput="checkEditUsernameAvail()"><span class="username-status" id="editUsernameStatus"></span></div></div>
+    <div class="mf"><label>Bio</label><textarea rows="2" id="editBio" maxlength="160"></textarea></div>
+    <div class="m-actions">
+      <button class="btn-ghost" onclick="closeProfileEdit()">Cancel</button>
+      <button class="btn-primary" onclick="saveProfileEdit()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- MY VIBES MODAL -->
+<div class="modal-bg" id="myVibesModal" onclick="if(event.target===this)closeMyVibes()">
+  <div class="modal" style="max-width:640px">
+    <button class="m-close" onclick="closeMyVibes()">×</button>
+    <h3>My <em>Vibes</em></h3>
+    <div id="myVibesList" class="my-vibes-list">
+      <div class="my-vibes-empty">Loading...</div>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT POST MODAL -->
+<div class="modal-bg" id="editPostModal" onclick="if(event.target===this)closeEditPost()">
+  <div class="modal">
+    <button class="m-close" onclick="closeEditPost()">×</button>
+    <h3>Edit <em>vibe</em></h3>
+    <input type="hidden" id="editPostId">
+    <div class="mf"><label>Project Title</label><input type="text" id="editPostTitle"></div>
+    <div class="mf"><label>Prompt</label><textarea rows="3" id="editPostPrompt"></textarea></div>
+    <div class="mf"><label>Description</label><textarea rows="2" id="editPostDescription"></textarea></div>
+    <div class="mf"><label>Live URL</label><input type="text" id="editPostUrl"></div>
+    <div class="mf"><label>Tags</label><input type="text" id="editPostTags"></div>
+    <div class="m-actions">
+      <button class="btn-ghost" onclick="closeEditPost()">Cancel</button>
+      <button class="btn-primary" onclick="saveEditPost()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE CONFIRMATION MODAL -->
+<div class="modal-bg" id="deleteConfirmModal" onclick="if(event.target===this)closeDeleteConfirm()" style="z-index:700">
+  <div class="modal" style="max-width:380px;text-align:center">
+    <div style="font-size:32px;margin-bottom:8px">🗑️</div>
+    <h3>Delete this vibe?</h3>
+    <p id="deleteConfirmTitle" style="color:var(--ink-muted)"></p>
+    <div class="m-actions" style="justify-content:center">
+      <button class="btn-ghost" onclick="closeDeleteConfirm()">Cancel</button>
+      <button class="btn-primary" style="background:#dc2626" onclick="confirmDeletePost()">Delete</button>
     </div>
   </div>
 </div>
@@ -1158,7 +997,13 @@
 <div class="sa-tooltip" id="saTooltip"></div>
 
 <!-- SCRIPTS -->
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"></script>
 <script src="js/main.js"></script>
+<script src="js/seed-data.js"></script>
+<script src="js/firebase-app.js"></script>
 <script src="js/dashboard.js"></script>
 <script src="js/snake.js"></script>
 <script src="js/budget.js"></script>
@@ -1169,18 +1014,5 @@
 <script src="js/habit.js"></script>
 <script src="js/solar.js"></script>
 
-<!-- Habit grid (generated via JS since it uses Math.random) -->
-<script>
-(function() {
-  const grid = document.getElementById('habitGrid');
-  if (!grid) return;
-  for (let i = 0; i < 28; i++) {
-    const d = document.createElement('div');
-    d.style.cssText = 'aspect-ratio:1;border-radius:3px;background:' +
-      (i < 14 ? 'rgba(212,82,26,' + (0.15 + Math.random() * 0.6) + ')' : 'var(--border)');
-    grid.appendChild(d);
-  }
-})();
-</script>
 </body>
 </html>

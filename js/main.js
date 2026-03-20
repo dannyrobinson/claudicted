@@ -74,11 +74,74 @@ function sendPrompt() {
 }
 
 // ── UI HELPERS ─────────────────────────────────────
-function openModal() { document.getElementById('modal').classList.add('open'); }
+function openModal() {
+  if (!currentUser) {
+    openLogin();
+    showToast('Sign in first to share your vibe!');
+    return;
+  }
+  document.getElementById('modal').classList.add('open');
+}
 function closeModal() { document.getElementById('modal').classList.remove('open'); }
 function closeMBg(e) { if (e.target === document.getElementById('modal')) closeModal(); }
-function submitVibe() { closeModal(); showToast("Vibe posted! You're officially Claudicted 🔥"); }
-function setF(btn) { document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('on')); btn.classList.add('on'); }
+function submitVibe() {
+  // Check if user is signed in
+  if (!currentUser) {
+    closeModal();
+    openLogin();
+    showToast('Sign in first to share your vibe!');
+    return;
+  }
+
+  const title = document.getElementById('vibeTitle')?.value?.trim();
+  const prompt = document.getElementById('vibePrompt')?.value?.trim();
+  const description = document.getElementById('vibeDescription')?.value?.trim();
+  const liveUrl = document.getElementById('vibeUrl')?.value?.trim();
+  const tagsStr = document.getElementById('vibeTags')?.value?.trim();
+
+  if (!title) {
+    showToast('Give your vibe a title!');
+    shake(document.getElementById('vibeTitle'));
+    return;
+  }
+
+  const tags = tagsStr ? tagsStr.split(',').map(t => t.trim().toLowerCase()).filter(Boolean) : [];
+
+  createPost({
+    title,
+    prompt: prompt || '',
+    description: description || '',
+    liveUrl: liveUrl || '',
+    tags
+  }).then(() => {
+    // Clear form
+    document.getElementById('vibeTitle').value = '';
+    document.getElementById('vibePrompt').value = '';
+    document.getElementById('vibeDescription').value = '';
+    document.getElementById('vibeUrl').value = '';
+    document.getElementById('vibeTags').value = '';
+    closeModal();
+    showToast("Vibe posted! You're officially Claudicted 🔥");
+  }).catch(err => {
+    console.error('Post failed:', err);
+    showToast('Something went wrong. Try again!');
+  });
+}
+function setF(btn) {
+  document.querySelectorAll('.ftab').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  const filterText = btn.textContent.trim().toLowerCase();
+
+  if (filterText === 'all vibes') activeFilter = 'all';
+  else if (filterText === 'full apps') activeFilter = 'app';
+  else if (filterText === 'ui / components') activeFilter = 'ui';
+  else if (filterText === 'tools') activeFilter = 'tool';
+  else if (filterText === 'games') activeFilter = 'game';
+  else if (filterText === 'going wild') activeFilter = 'wild';
+  else activeFilter = 'all';
+
+  renderCards();
+}
 
 let tt;
 function showToast(msg) {
@@ -89,60 +152,38 @@ function showToast(msg) {
   tt = setTimeout(()=>t.classList.remove('show'), 3000);
 }
 function likeCard(btn) {
-  const n = parseInt(btn.textContent.replace(/\D/g,''));
-  if (btn.dataset.liked) {
-    btn.textContent = `❤ ${(n-1).toLocaleString()}`;
-    btn.style.color = '';
-    delete btn.dataset.liked;
-  } else {
-    btn.textContent = `❤ ${(n+1).toLocaleString()}`;
+  const postId = btn.dataset.postId;
+  if (!postId) {
+    // Fallback for non-firebase cards (shouldn't happen but just in case)
+    const n = parseInt(btn.textContent.replace(/\D/g, ''));
+    btn.textContent = `❤ ${(n + 1).toLocaleString()}`;
     btn.style.color = '#FF6B35';
-    btn.dataset.liked = '1';
-    showToast('Liked! Good taste 🔥');
+    return;
   }
+
+  if (!currentUser) {
+    openLogin();
+    showToast('Sign in to like vibes!');
+    return;
+  }
+
+  toggleLike(postId, btn);
 }
-document.addEventListener('keydown', e => { if (e.key==='Escape') { closeModal(); closeLogin(); } });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeModal();
+    closeLogin();
+    if (typeof closeMyVibes === 'function') closeMyVibes();
+    if (typeof closeProfileEdit === 'function') closeProfileEdit();
+    if (typeof closeEditPost === 'function') closeEditPost();
+    if (typeof closeDeleteConfirm === 'function') closeDeleteConfirm();
+  }
+});
 
-// ── LOGIN ────────────────────────────────────────────────
-const USERS = {
-  'danny@fpes.ca': { name: 'Danny', color: '#818cf8', initials: 'D' },
-  'david@claudicted.com': { name: 'David', color: '#FF6B35', initials: 'D' },
-};
-const PASS = 'claudicted2025';
-
+/* ── Auth (delegates to firebase-app.js) ── */
 function openLogin() {
   document.getElementById('loginModal').classList.add('open');
-  setTimeout(() => document.getElementById('loginEmail').focus(), 100);
 }
 function closeLogin() {
   document.getElementById('loginModal').classList.remove('open');
-  document.getElementById('loginHint').style.display = 'none';
-  document.getElementById('loginError').style.display = 'none';
-}
-function checkLoginHint() {
-  const email = document.getElementById('loginEmail').value.trim().toLowerCase();
-  document.getElementById('loginHint').style.display = USERS[email] ? 'block' : 'none';
-  document.getElementById('loginError').style.display = 'none';
-}
-function doLogin() {
-  const email = document.getElementById('loginEmail').value.trim().toLowerCase();
-  const pass  = document.getElementById('loginPassword').value;
-  const user  = USERS[email];
-  if (!user || pass !== PASS) {
-    document.getElementById('loginError').style.display = 'block';
-    shake(document.getElementById('loginPassword'));
-    return;
-  }
-  closeLogin();
-  // Update nav sign-in button
-  const btn = document.querySelector('.btn-primary');
-  btn.textContent = `${user.name} ✓`;
-  btn.style.background = user.color;
-  btn.onclick = null;
-  // If Danny, show him online
-  if (email === 'danny@fpes.ca') {
-    const dot = document.getElementById('dannyOnlineDot');
-    if (dot) { dot.style.background = '#16a34a'; dot.title = 'Online'; }
-  }
-  showToast(`Welcome back, ${user.name}! 🔥`);
 }
