@@ -1,0 +1,225 @@
+/* ── WRITING COACH APP MODAL ──────────────────────── */
+.writer-app {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  width: 92%;
+  max-width: 660px;
+  max-height: 88vh;
+  overflow-y: auto;
+  padding: 28px;
+  position: relative;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.35);
+  transform: scale(0.95) translateY(20px);
+  transition: all 0.35s cubic-bezier(0.23,1,0.32,1);
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.modal-bg.open .writer-app { transform: scale(1) translateY(0); }
+
+/* HEADER */
+.wc-header {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px; gap: 12px;
+}
+.wc-header-left { display: flex; align-items: center; gap: 12px; }
+.wc-logo { font-size: 28px; line-height: 1; }
+.wc-title { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 600; color: var(--ink); letter-spacing: -0.5px; }
+.wc-sub { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-muted); margin-top: 2px; }
+.wc-header-right { display: flex; align-items: center; gap: 8px; }
+.wc-popout-btn {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(128,128,128,0.1); border: none;
+  cursor: pointer; color: var(--ink-muted);
+  display: flex; align-items: center; justify-content: center;
+  transition: var(--trans); flex-shrink: 0;
+}
+.wc-popout-btn:hover { background: var(--accent-glow); color: var(--accent); }
+.wc-close {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(128,128,128,0.1); border: none;
+  cursor: pointer; color: var(--ink-muted); font-size: 18px;
+  display: flex; align-items: center; justify-content: center;
+  transition: var(--trans); flex-shrink: 0;
+}
+.wc-close:hover { background: rgba(128,128,128,0.2); color: var(--ink); }
+
+/* TEXTAREA */
+.wc-editor-wrap {
+  position: relative;
+  margin-bottom: 16px;
+}
+.wc-textarea {
+  width: 100%;
+  min-height: 160px;
+  max-height: 260px;
+  background: var(--input-bg, rgba(255,255,255,0.04));
+  border: 1px solid var(--input-border, rgba(255,255,255,0.1));
+  border-radius: 14px;
+  padding: 16px 18px;
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--ink);
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.wc-textarea:focus { border-color: var(--accent); }
+.wc-textarea::placeholder { color: var(--ink-muted); }
+
+/* STATS BAR */
+.wc-stats-bar {
+  display: flex; flex-wrap: wrap; gap: 12px;
+  padding: 10px 16px;
+  background: var(--accent-glow);
+  border: 1px solid var(--border-em);
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+.wc-stat {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; color: var(--ink-muted);
+}
+.wc-stat strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* TONE DETECTOR */
+.wc-tone {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 16px;
+  background: rgba(128,128,128,0.04);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+.wc-tone-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--ink-muted);
+}
+.wc-tone-value {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px; font-weight: 600;
+  color: var(--ink);
+}
+
+/* SCORE CARDS */
+.wc-scores {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+.wc-score-card {
+  padding: 16px 14px;
+  border-radius: 14px;
+  text-align: center;
+  border: 1px solid var(--border);
+  transition: var(--trans);
+}
+.wc-score-card:hover { transform: translateY(-2px); }
+.wc-score-ring-wrap {
+  position: relative;
+  width: 64px; height: 64px;
+  margin: 0 auto 10px;
+}
+.wc-score-ring {
+  width: 100%; height: 100%;
+  transform: rotate(-90deg);
+}
+.wc-score-ring-bg {
+  fill: none;
+  stroke: var(--border);
+  stroke-width: 5;
+}
+.wc-score-ring-fill {
+  fill: none;
+  stroke-width: 5;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.8s cubic-bezier(0.23,1,0.32,1), stroke 0.3s;
+}
+.wc-score-num {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Fraunces', serif;
+  font-size: 18px; font-weight: 700;
+  letter-spacing: -0.5px;
+}
+.wc-score-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--ink-muted);
+}
+.wc-score-desc {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--ink-muted);
+  margin-top: 4px;
+}
+
+/* Score colors */
+.wc-score-card.clarity { border-color: rgba(22,163,74,0.15); }
+.wc-score-card.clarity .wc-score-ring-fill { stroke: #16a34a; }
+.wc-score-card.clarity .wc-score-num { color: #16a34a; }
+
+.wc-score-card.flow { border-color: rgba(37,99,235,0.15); }
+.wc-score-card.flow .wc-score-ring-fill { stroke: #2563eb; }
+.wc-score-card.flow .wc-score-num { color: #2563eb; }
+
+.wc-score-card.vibe { border-color: var(--border-em); }
+.wc-score-card.vibe .wc-score-ring-fill { stroke: var(--accent); }
+.wc-score-card.vibe .wc-score-num { color: var(--accent); }
+
+/* Dynamic score colors */
+.wc-score-card.score-low .wc-score-ring-fill { stroke: #dc2626 !important; }
+.wc-score-card.score-low .wc-score-num { color: #dc2626 !important; }
+.wc-score-card.score-mid .wc-score-ring-fill { stroke: #f59e0b !important; }
+.wc-score-card.score-mid .wc-score-num { color: #f59e0b !important; }
+
+/* SUGGESTIONS */
+.wc-suggestions-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--ink-muted);
+  margin-bottom: 10px;
+  display: flex; align-items: center; gap: 8px;
+}
+.wc-suggestions {
+  display: flex; flex-direction: column; gap: 6px;
+}
+.wc-suggestion {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 14px;
+  background: rgba(128,128,128,0.04);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 12px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+  animation: wcFadeIn 0.3s ease both;
+}
+.wc-suggestion-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+
+@keyframes wcFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* EMPTY STATE */
+.wc-empty-hint {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--ink-muted);
+  text-align: center;
+  padding: 16px;
+}

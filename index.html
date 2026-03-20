@@ -10,6 +10,12 @@
 <link rel="stylesheet" href="css/dashboard.css">
 <link rel="stylesheet" href="css/snake.css">
 <link rel="stylesheet" href="css/budget.css">
+<link rel="stylesheet" href="css/recipe.css">
+<link rel="stylesheet" href="css/todo.css">
+<link rel="stylesheet" href="css/portfolio.css">
+<link rel="stylesheet" href="css/writer.css">
+<link rel="stylesheet" href="css/habit.css">
+<link rel="stylesheet" href="css/solar.css">
 </head>
 <body>
 
@@ -243,7 +249,7 @@
     </div>
 
     <!-- CARD 4 — RECIPE APP -->
-    <div class="card" onclick="showToast('Opening project...')">
+    <div class="card" onclick="openRecipe()">
       <div class="card-prev p4">
         <div class="badge tr">"design a recipe app..."</div>
         <div class="mcard" style="width:76%;overflow:hidden">
@@ -271,7 +277,7 @@
     </div>
 
     <!-- CARD 5 — PORTFOLIO -->
-    <div class="card" onclick="showToast('Opening project...')">
+    <div class="card" onclick="openPortfolio()">
       <div class="card-prev p5">
         <div class="badge tl">🌊 smooth</div>
         <div class="mcard" style="width:78%;padding:22px;text-align:center">
@@ -297,7 +303,7 @@
     </div>
 
     <!-- CARD 6 — WRITING COACH -->
-    <div class="card" onclick="showToast('Opening project...')">
+    <div class="card" onclick="openWriter()">
       <div class="card-prev p6">
         <div class="mcard" style="width:82%;padding:16px">
           <div style="font-size:9px;color:var(--ink-muted);font-family:'DM Mono',monospace;margin-bottom:10px;letter-spacing:1px">AI WRITING COACH</div>
@@ -323,7 +329,7 @@
     </div>
 
     <!-- CARD 7 — HABIT TRACKER -->
-    <div class="card" onclick="showToast('Opening project...')">
+    <div class="card" onclick="openHabit()">
       <div class="card-prev p7">
         <div class="badge tr">"make me a habit tracker..."</div>
         <div class="mcard" style="width:80%;padding:16px">
@@ -346,7 +352,7 @@
     </div>
 
     <!-- CARD 8 — SOLAR SYSTEM -->
-    <div class="card" onclick="showToast('Opening project...')">
+    <div class="card" onclick="openSolar()">
       <div class="card-prev p8">
         <div class="badge tl">🤯 wild</div>
         <div class="mcard" style="width:76%;padding:18px;text-align:center">
@@ -373,7 +379,7 @@
     </div>
 
     <!-- CARD 9 — TODO APP -->
-    <div class="card" onclick="showToast('Opening project...')">
+    <div class="card" onclick="openTodo()">
       <div class="card-prev p9">
         <div class="mcard" style="width:76%;padding:18px">
           <div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:12px;font-family:'Fraunces',serif;letter-spacing:-0.3px">Today</div>
@@ -717,6 +723,437 @@
   </div>
 </div>
 
+<!-- ═══════════════════════════════════════════════════════
+     RECIPE APP MODAL
+═══════════════════════════════════════════════════════ -->
+<div class="modal-bg" id="recipeModal" onclick="closeRecipeBg(event)">
+  <div class="recipe-app" id="recipeApp">
+
+    <!-- HEADER -->
+    <div class="rc-header">
+      <div class="rc-header-left">
+        <div class="rc-logo">🍳</div>
+        <div>
+          <div class="rc-title">PantryAI</div>
+          <div class="rc-sub">Smart recipe suggestions</div>
+        </div>
+      </div>
+      <div class="rc-header-right">
+        <button class="rc-popout" onclick="popoutRecipe()" title="Pop out into new window">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+        </button>
+        <button class="rc-close" onclick="closeRecipe()">&#215;</button>
+      </div>
+    </div>
+
+    <!-- PANTRY -->
+    <div class="rc-section">Your Pantry <span class="rc-count" id="rcSelectedCount">0</span></div>
+    <div class="rc-pantry-actions">
+      <button class="rc-pantry-btn" onclick="selectAllIngredients()">Select All</button>
+      <button class="rc-pantry-btn" onclick="clearIngredients()">Clear</button>
+    </div>
+    <div class="rc-pantry" id="rcPantry"></div>
+
+    <!-- GENERATE -->
+    <div class="rc-generate-wrap">
+      <button class="rc-generate" id="rcGenBtn" onclick="generateRecipe()">
+        <span class="rc-gen-icon">🔍</span> Find Recipe
+      </button>
+      <span class="rc-hint">Select ingredients, then generate</span>
+    </div>
+
+    <!-- RECIPE RESULT -->
+    <div class="rc-result" id="recipeResult"></div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     TODO APP MODAL
+═══════════════════════════════════════════════════════ -->
+<div class="modal-bg" id="todoModal" onclick="closeTodoBg(event)">
+  <div class="todo-app" id="todoApp">
+
+    <!-- HEADER -->
+    <div class="td-header">
+      <div class="td-header-left">
+        <div class="td-logo">✅</div>
+        <div>
+          <div class="td-title">done.</div>
+          <div class="td-sub">the todo app that judges you</div>
+        </div>
+      </div>
+      <div class="td-header-right">
+        <button class="td-popout" onclick="popoutTodo()" title="Pop out into new window">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+        </button>
+        <button class="td-close" onclick="closeTodo()">&#215;</button>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="td-stats">
+      <div class="td-stat">
+        <div class="td-stat-val" id="tdDone">0</div>
+        <div class="td-stat-label">Done</div>
+      </div>
+      <div class="td-stat-divider"></div>
+      <div class="td-stat">
+        <div class="td-stat-val" id="tdTotal">0</div>
+        <div class="td-stat-label">Total</div>
+      </div>
+      <div class="td-stat-divider"></div>
+      <div class="td-stat">
+        <div class="td-stat-val" id="tdStreak">0</div>
+        <div class="td-stat-label">Streak</div>
+      </div>
+      <div class="td-stat-divider"></div>
+      <div class="td-stat">
+        <div class="td-stat-val" id="tdScore">0%</div>
+        <div class="td-stat-label">Score</div>
+      </div>
+    </div>
+    <div class="td-roast" id="tdRoast"></div>
+
+    <!-- TABS -->
+    <div class="td-tabs" id="tdTabs"></div>
+
+    <!-- LIST -->
+    <div class="td-list" id="tdList"></div>
+
+    <!-- ADD -->
+    <div class="td-add-wrap">
+      <input class="td-add-input" id="tdAddInput" placeholder="add something you'll probably ignore..." maxlength="80">
+      <button class="td-add-btn" onclick="addTodo()">+ add</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- PORTFOLIO MODAL -->
+<div class="modal-bg" id="portfolioModal" onclick="closePortfolioBg(event)">
+  <div class="portfolio-app" id="portfolioApp">
+
+    <!-- HEADER -->
+    <div class="pf-header">
+      <div class="pf-header-left">
+        <span class="pf-logo">🌊</span>
+        <div>
+          <div class="pf-title">Daniel Osei</div>
+          <div class="pf-sub">Designer × Vibe Coder</div>
+        </div>
+      </div>
+      <div class="pf-header-right">
+        <button class="pf-popout-btn" onclick="popoutPortfolio()" title="Pop out">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </button>
+        <button class="pf-close" onclick="closePortfolio()">&#215;</button>
+      </div>
+    </div>
+
+    <!-- HERO -->
+    <div class="pf-hero">
+      <div class="pf-hero-name">Daniel<em>Osei</em></div>
+      <div class="pf-hero-role">Designer × Vibe Coder</div>
+      <div class="pf-hero-line"></div>
+    </div>
+
+    <!-- NAV -->
+    <div class="pf-nav">
+      <button class="pf-nav-dot active" data-section="work" onclick="showPortfolioSection('work')">Work</button>
+      <button class="pf-nav-dot" data-section="about" onclick="showPortfolioSection('about')">About</button>
+      <button class="pf-nav-dot" data-section="contact" onclick="showPortfolioSection('contact')">Contact</button>
+    </div>
+
+    <!-- SECTIONS -->
+    <div class="pf-sections">
+
+      <!-- WORK -->
+      <div class="pf-section active" id="pfSection-work">
+        <div class="pf-work-grid">
+          <div class="pf-project">
+            <div class="pf-project-img" style="background:linear-gradient(135deg, #FF6B35 0%, #E8521A 50%, #8B5CF6 100%)"></div>
+            <div class="pf-project-body">
+              <div class="pf-project-title">Claudicted Gallery</div>
+              <div class="pf-project-desc">A curated showcase of vibe-coded projects. Built entirely through conversation with Claude.</div>
+              <div class="pf-project-tags"><span class="pf-project-tag">react</span><span class="pf-project-tag">vibe coding</span><span class="pf-project-tag">gallery</span></div>
+            </div>
+          </div>
+          <div class="pf-project">
+            <div class="pf-project-img" style="background:linear-gradient(135deg, #3B82F6 0%, #06B6D4 50%, #10B981 100%)"></div>
+            <div class="pf-project-body">
+              <div class="pf-project-title">FinTrack Dashboard</div>
+              <div class="pf-project-desc">Real-time financial analytics with buttery smooth charts. Dark mode first, always.</div>
+              <div class="pf-project-tags"><span class="pf-project-tag">dashboard</span><span class="pf-project-tag">charts</span><span class="pf-project-tag">d3.js</span></div>
+            </div>
+          </div>
+          <div class="pf-project">
+            <div class="pf-project-img" style="background:linear-gradient(135deg, #8B5CF6 0%, #EC4899 50%, #F59E0B 100%)"></div>
+            <div class="pf-project-body">
+              <div class="pf-project-title">MoodBoard AI</div>
+              <div class="pf-project-desc">Drag-and-drop mood board generator powered by AI color extraction and layout algorithms.</div>
+              <div class="pf-project-tags"><span class="pf-project-tag">ai</span><span class="pf-project-tag">design tool</span><span class="pf-project-tag">canvas</span></div>
+            </div>
+          </div>
+          <div class="pf-project">
+            <div class="pf-project-img" style="background:linear-gradient(135deg, #10B981 0%, #3B82F6 50%, #8B5CF6 100%)"></div>
+            <div class="pf-project-body">
+              <div class="pf-project-title">Type.motion</div>
+              <div class="pf-project-desc">Kinetic typography playground. Animate any text with physics-based spring animations.</div>
+              <div class="pf-project-tags"><span class="pf-project-tag">motion</span><span class="pf-project-tag">typography</span><span class="pf-project-tag">gsap</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ABOUT -->
+      <div class="pf-section" id="pfSection-about">
+        <div class="pf-about-bio">I'm Daniel — a designer who fell in love with vibe coding. I describe what I want, Claude builds it, and together we make things that feel alive. Currently obsessed with motion, typography, and shipping fast.</div>
+        <div class="pf-skills-label">Skills</div>
+        <div class="pf-skills">
+          <div class="pf-skill-row"><span class="pf-skill-name">UI / UX</span><div class="pf-skill-bar-wrap"><div class="pf-skill-bar" data-pct="94"></div></div><span class="pf-skill-pct">94%</span></div>
+          <div class="pf-skill-row"><span class="pf-skill-name">React</span><div class="pf-skill-bar-wrap"><div class="pf-skill-bar" data-pct="88"></div></div><span class="pf-skill-pct">88%</span></div>
+          <div class="pf-skill-row"><span class="pf-skill-name">Motion Design</span><div class="pf-skill-bar-wrap"><div class="pf-skill-bar" data-pct="91"></div></div><span class="pf-skill-pct">91%</span></div>
+          <div class="pf-skill-row"><span class="pf-skill-name">Vibe Coding</span><div class="pf-skill-bar-wrap"><div class="pf-skill-bar" data-pct="97"></div></div><span class="pf-skill-pct">97%</span></div>
+          <div class="pf-skill-row"><span class="pf-skill-name">Typography</span><div class="pf-skill-bar-wrap"><div class="pf-skill-bar" data-pct="85"></div></div><span class="pf-skill-pct">85%</span></div>
+        </div>
+      </div>
+
+      <!-- CONTACT -->
+      <div class="pf-section" id="pfSection-contact">
+        <div class="pf-contact-intro">Want to collab or just say hi? Drop a message below.</div>
+        <form class="pf-form" onsubmit="pfHandleContact(event)">
+          <div class="pf-field"><label>Name</label><input class="pf-input" placeholder="Your name"></div>
+          <div class="pf-field"><label>Email</label><input class="pf-input" type="email" placeholder="you@example.com"></div>
+          <div class="pf-field"><label>Message</label><textarea class="pf-textarea" placeholder="What's on your mind?"></textarea></div>
+          <button class="pf-submit" type="submit">Send Message</button>
+        </form>
+      </div>
+
+    </div>
+
+    <div class="pf-footer">Built with vibes & Claude · 2024</div>
+  </div>
+</div>
+
+<!-- WRITER MODAL -->
+<div class="modal-bg" id="writerModal" onclick="closeWriterBg(event)">
+  <div class="writer-app" id="writerApp">
+
+    <!-- HEADER -->
+    <div class="wc-header">
+      <div class="wc-header-left">
+        <span class="wc-logo">✍️</span>
+        <div>
+          <div class="wc-title">WriteFlow</div>
+          <div class="wc-sub">AI writing coach with Vibe Score™</div>
+        </div>
+      </div>
+      <div class="wc-header-right">
+        <button class="wc-popout-btn" onclick="popoutWriter()" title="Pop out">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </button>
+        <button class="wc-close" onclick="closeWriter()">&#215;</button>
+      </div>
+    </div>
+
+    <!-- TEXTAREA -->
+    <div class="wc-editor-wrap">
+      <textarea class="wc-textarea" id="wcTextarea" oninput="onWriterInput()" placeholder="Start writing something amazing..."></textarea>
+    </div>
+
+    <!-- STATS BAR -->
+    <div class="wc-stats-bar">
+      <span class="wc-stat" id="wcWords"><strong>0</strong> words</span>
+      <span class="wc-stat" id="wcSentences"><strong>0</strong> sentences</span>
+      <span class="wc-stat" id="wcReadTime"><strong>0</strong> min read</span>
+      <span class="wc-stat" id="wcGrade">Grade <strong>-</strong></span>
+    </div>
+
+    <!-- TONE -->
+    <div class="wc-tone">
+      <span class="wc-tone-label">Tone</span>
+      <span class="wc-tone-value" id="wcToneValue">— Start writing to detect tone</span>
+    </div>
+
+    <!-- SCORES -->
+    <div class="wc-scores">
+      <div class="wc-score-card clarity" id="wcClarity">
+        <div class="wc-score-ring-wrap">
+          <svg class="wc-score-ring" viewBox="0 0 60 60">
+            <circle class="wc-score-ring-bg" cx="30" cy="30" r="25"/>
+            <circle class="wc-score-ring-fill" cx="30" cy="30" r="25" stroke-dasharray="157" stroke-dashoffset="157"/>
+          </svg>
+          <div class="wc-score-num">0</div>
+        </div>
+        <div class="wc-score-label">Clarity</div>
+      </div>
+      <div class="wc-score-card flow" id="wcFlow">
+        <div class="wc-score-ring-wrap">
+          <svg class="wc-score-ring" viewBox="0 0 60 60">
+            <circle class="wc-score-ring-bg" cx="30" cy="30" r="25"/>
+            <circle class="wc-score-ring-fill" cx="30" cy="30" r="25" stroke-dasharray="157" stroke-dashoffset="157"/>
+          </svg>
+          <div class="wc-score-num">0</div>
+        </div>
+        <div class="wc-score-label">Flow</div>
+      </div>
+      <div class="wc-score-card vibe" id="wcVibe">
+        <div class="wc-score-ring-wrap">
+          <svg class="wc-score-ring" viewBox="0 0 60 60">
+            <circle class="wc-score-ring-bg" cx="30" cy="30" r="25"/>
+            <circle class="wc-score-ring-fill" cx="30" cy="30" r="25" stroke-dasharray="157" stroke-dashoffset="157"/>
+          </svg>
+          <div class="wc-score-num">0</div>
+        </div>
+        <div class="wc-score-label">Vibe™</div>
+      </div>
+    </div>
+
+    <!-- SUGGESTIONS -->
+    <div class="wc-suggestions-label">Suggestions</div>
+    <div class="wc-suggestions" id="wcSuggestions">
+      <div class="wc-empty-hint">Start typing to see real-time writing analysis...</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     HABIT TRACKER MODAL
+═══════════════════════════════════════════════════════ -->
+<div class="modal-bg" id="habitModal" onclick="closeHabitBg(event)">
+  <div class="habit-app" id="habitApp">
+
+    <!-- HEADER -->
+    <div class="ha-header">
+      <div class="ha-header-left">
+        <div class="ha-logo">🔥</div>
+        <div>
+          <div class="ha-title">Streakr</div>
+          <div class="ha-subtitle">build habits or get roasted</div>
+        </div>
+      </div>
+      <div class="ha-header-right">
+        <button class="ha-popout" onclick="popoutHabit()" title="Pop out into new window">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+        </button>
+        <button class="ha-close" onclick="closeHabit()">&#215;</button>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="ha-stats">
+      <div class="ha-stat"><div class="ha-stat-val" id="haStatTotal">0</div><div class="ha-stat-label">Habits</div></div>
+      <div class="ha-stat"><div class="ha-stat-val" id="haStatAvg">0</div><div class="ha-stat-label">Avg Streak</div></div>
+      <div class="ha-stat"><div class="ha-stat-val" id="haStatBest">0</div><div class="ha-stat-label">Best Streak</div></div>
+      <div class="ha-stat"><div class="ha-stat-val" id="haStatShame">0%</div><div class="ha-stat-label">Shame Score</div></div>
+    </div>
+
+    <!-- HABIT LIST -->
+    <div class="ha-section-label">Today's Habits</div>
+    <div class="ha-habits" id="haHabits"></div>
+
+    <!-- ADD HABIT -->
+    <div class="ha-add-row">
+      <input class="ha-add-input" id="haNewName" placeholder="Add a new habit..." maxlength="30" onkeydown="if(event.key==='Enter')addHabit()">
+      <div class="ha-emoji-picks">
+        <button class="ha-emoji-pick" onclick="selectHabitEmoji('💪',this)">💪</button>
+        <button class="ha-emoji-pick" onclick="selectHabitEmoji('📖',this)">📖</button>
+        <button class="ha-emoji-pick" onclick="selectHabitEmoji('🏃',this)">🏃</button>
+        <button class="ha-emoji-pick" onclick="selectHabitEmoji('🎨',this)">🎨</button>
+        <button class="ha-emoji-pick" onclick="selectHabitEmoji('😴',this)">😴</button>
+        <button class="ha-emoji-pick selected" onclick="selectHabitEmoji('🎯',this)">🎯</button>
+      </div>
+      <button class="ha-add-btn" onclick="addHabit()">+ Add</button>
+    </div>
+
+    <!-- CALENDAR -->
+    <div class="ha-section-label">Streak Calendar</div>
+    <div class="ha-calendar">
+      <div class="ha-cal-header">
+        <div class="ha-cal-month" id="haCalMonth"></div>
+        <div class="ha-cal-nav">
+          <button class="ha-cal-btn" onclick="prevHabitMonth()">‹</button>
+          <button class="ha-cal-btn" onclick="nextHabitMonth()">›</button>
+        </div>
+      </div>
+      <div class="ha-cal-days" id="haCalGrid"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SOLAR SYSTEM MODAL
+═══════════════════════════════════════════════════════ -->
+<div class="modal-bg" id="solarModal" onclick="closeSolarBg(event)">
+  <div class="solar-app" id="solarApp">
+
+    <!-- HEADER -->
+    <div class="so-header">
+      <div class="so-header-left">
+        <div class="so-logo">🪐</div>
+        <div>
+          <div class="so-title">Cosmos</div>
+          <div class="so-subtitle">the solar system at real orbital ratios</div>
+        </div>
+      </div>
+      <div class="so-header-right">
+        <button class="so-popout" onclick="popoutSolar()" title="Pop out into new window">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+          </svg>
+        </button>
+        <button class="so-close" onclick="closeSolar()">&#215;</button>
+      </div>
+    </div>
+
+    <!-- CANVAS -->
+    <div class="so-canvas-wrap">
+      <canvas id="solarCanvas"></canvas>
+      <div class="so-time-display" id="soTimeDisplay">Earth Years: <span>0.00</span></div>
+    </div>
+
+    <!-- CONTROLS -->
+    <div class="so-controls">
+      <button class="so-ctrl-btn active" id="soPlayBtn" onclick="toggleSolarPlay()">⏸</button>
+      <div class="so-speed-wrap">
+        <span class="so-speed-label">Speed</span>
+        <input type="range" class="so-speed-slider" min="0.5" max="10" step="0.5" value="1" oninput="setSolarSpeed(this.value)">
+        <span class="so-speed-val" id="soSpeedVal">1x</span>
+      </div>
+      <button class="so-ctrl-btn" onclick="solarZoomIn()">+</button>
+      <button class="so-ctrl-btn" onclick="solarZoomOut()">&minus;</button>
+      <button class="so-trail-btn" id="soTrailBtn" onclick="toggleSolarTrails()">Trails</button>
+    </div>
+
+    <!-- PLANET INFO -->
+    <div class="so-info" id="soInfo">
+      <div class="so-info-inner">
+        <div class="so-info-icon" id="soInfoIcon"></div>
+        <div class="so-info-details">
+          <div class="so-info-name" id="soInfoName"></div>
+          <div class="so-info-grid">
+            <div class="so-info-item"><div class="so-info-label">Distance</div><div class="so-info-val" id="soInfoDist"></div></div>
+            <div class="so-info-item"><div class="so-info-label">Orbital Period</div><div class="so-info-val" id="soInfoPeriod"></div></div>
+            <div class="so-info-item"><div class="so-info-label">Diameter</div><div class="so-info-val" id="soInfoDiam"></div></div>
+          </div>
+          <div class="so-info-fact" id="soInfoFact"></div>
+        </div>
+        <button class="so-info-close" onclick="closePlanetInfo()">&#215;</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <!-- TOOLTIP (for dashboard) -->
 <div class="sa-tooltip" id="saTooltip"></div>
 
@@ -725,6 +1162,12 @@
 <script src="js/dashboard.js"></script>
 <script src="js/snake.js"></script>
 <script src="js/budget.js"></script>
+<script src="js/recipe.js"></script>
+<script src="js/todo.js"></script>
+<script src="js/portfolio.js"></script>
+<script src="js/writer.js"></script>
+<script src="js/habit.js"></script>
+<script src="js/solar.js"></script>
 
 <!-- Habit grid (generated via JS since it uses Math.random) -->
 <script>
