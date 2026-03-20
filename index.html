@@ -71,42 +71,6 @@
   </div>
 </section>
 
-<!-- PROMPT BOX -->
-<div class="prompt-section">
-  <div class="prompt-label">✦ Describe your vibe — Claude will help you share it</div>
-  <div class="prompt-box" id="promptBox">
-    <textarea
-      class="prompt-textarea"
-      id="promptInput"
-      placeholder="Tell me what you built… or describe what you want to build and I'll help you post it."
-      oninput="onPromptInput(this)"
-      onkeydown="handleKey(event)"
-    ></textarea>
-    <div class="prompt-footer">
-      <div class="prompt-chips">
-        <span class="chip" onclick="insertChip('I built a dashboard app in')">📊 dashboard</span>
-        <span class="chip" onclick="insertChip('I made a game with')">🎮 game</span>
-        <span class="chip" onclick="insertChip('I designed a portfolio using')">✨ portfolio</span>
-        <span class="chip" onclick="insertChip('I built a tool that')">🔧 tool</span>
-        <span class="chip" onclick="insertChip('I created something wild —')">🤯 wild</span>
-      </div>
-      <div class="prompt-actions">
-        <span class="char-count" id="charCount">0 / 500</span>
-        <button class="btn-send" id="sendBtn" disabled onclick="sendPrompt()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
-          </svg>
-          Send
-        </button>
-      </div>
-    </div>
-  </div>
-  <div class="ai-response" id="aiResponse">
-    <div class="ai-response-header"><div class="ai-dot"></div>Claude suggests</div>
-    <div id="aiResponseText"></div>
-  </div>
-</div>
-
 <!-- MARQUEE -->
 <div class="marquee-strip">
   <div class="marquee-inner">
