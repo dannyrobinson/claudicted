@@ -10,7 +10,7 @@ function shake(el) {
 }
 
 // ── THEME ──────────────────────────────────────────
-let isDark = true;
+let isDark = false;
 
 function toggleTheme() {
   isDark = !isDark;
