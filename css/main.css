@@ -113,7 +113,7 @@ body::after {
 
 /* ─── NAV ─────────────────────────────────────────────── */
 nav {
-  position:sticky; top:0; z-index:200;
+  position:sticky; top:37px; z-index:200;
   display:flex; align-items:center; justify-content:space-between;
   padding:0 44px; height:62px;
   background: var(--nav-bg);
@@ -340,12 +340,13 @@ nav {
 .btn-send:disabled { opacity:0.35;cursor:not-allowed;transform:none; }
 .btn-send svg { width:14px;height:14px;color:white;flex-shrink:0; }
 
-/* ─── MARQUEE ─────────────────────────────────────────── */
+/* ─── MARQUEE / TICKER ────────────────────────────────── */
 .marquee-strip {
-  position:relative;z-index:1;
-  overflow:hidden;padding:12px 0;
+  position:sticky; top:0; z-index:201;
+  overflow:hidden;padding:10px 0;
   background:var(--marquee-bg);
   transition:background 0.35s;
+  border-bottom:1px solid rgba(255,255,255,0.06);
 }
 .marquee-inner {
   display:flex;gap:48px;animation:marquee 32s linear infinite;
