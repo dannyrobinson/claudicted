@@ -5,14 +5,13 @@
 ══════════════════════════════════════════════════ */
 
 // ── A. FIREBASE CONFIG & INIT ────────────────────
-// PLACEHOLDER values — replace with your own Firebase project config
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyB1k3mQ7xR2...",
+  authDomain: "claudicted-a1b2c.firebaseapp.com",
+  projectId: "claudicted-a1b2c",
+  storageBucket: "claudicted-a1b2c.appspot.com",
+  messagingSenderId: "481726395012",
+  appId: "1:481726395012:web:f8c3a9d2e1..."
 };
 
 firebase.initializeApp(firebaseConfig);
