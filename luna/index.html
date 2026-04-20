@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="theme-color" content="#FAF8F2" />
+  <title>Luna</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ============================================================
+     HOME — empty state, mic, suggestions
+     ============================================================ -->
+<section class="screen screen-home active" data-screen="home">
+  <div class="status-bar">
+    <span class="status-time" id="clock">9:41</span>
+    <span class="status-right">●●●</span>
+  </div>
+
+  <div class="home-hero">
+    <p class="home-eyebrow"><span class="pulse-dot"></span>Luna</p>
+    <h1 class="home-h">
+      What are you <em>trying to do?</em>
+    </h1>
+    <p class="home-sub">Tell me in a sentence. Tap and hold to speak.</p>
+  </div>
+
+  <div class="home-suggestions">
+    <p class="suggestions-label">Try</p>
+    <button class="suggestion-chip" data-intent="nyc-board">
+      <span class="chip-mark">"</span>I need to be in NYC Tuesday for the Q2 board
+    </button>
+    <button class="suggestion-chip" data-intent="sf-customer">
+      <span class="chip-mark">"</span>SF Thursday to meet with the Acme team
+    </button>
+    <button class="suggestion-chip" data-intent="london-offsite">
+      <span class="chip-mark">"</span>London next week for the leadership offsite
+    </button>
+    <button class="suggestion-chip" data-intent="austin-conference">
+      <span class="chip-mark">"</span>Austin for SXSW, arriving Monday
+    </button>
+  </div>
+
+  <div class="home-input-dock">
+    <div class="input-wrap">
+      <input type="text" id="intent-input" class="intent-input" placeholder="Or type it here…" autocomplete="off" />
+      <button id="send-btn" class="send-btn" aria-label="Send">→</button>
+    </div>
+    <button id="mic-btn" class="mic-btn" aria-label="Hold to speak">
+      <span class="mic-icon">●</span>
+      <span class="mic-wave" id="mic-wave">
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      </span>
+    </button>
+  </div>
+
+  <div class="home-footer">
+    <p>No search. No form. Just tell Luna.</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     THINKING — the ledger during proposal generation
+     ============================================================ -->
+<section class="screen screen-thinking" data-screen="thinking">
+  <div class="status-bar">
+    <span class="status-time" id="clock-2">9:41</span>
+    <span class="status-right">●●●</span>
+  </div>
+
+  <nav class="app-nav">
+    <button class="nav-btn" data-action="cancel-thinking">×</button>
+    <span class="nav-title"><span class="nav-dot"></span>Luna · working</span>
+    <span class="nav-btn ghost">⋯</span>
+  </nav>
+
+  <div class="thinking-intent">
+    <p class="thinking-label">You said</p>
+    <p class="thinking-quote" id="thinking-quote">—</p>
+  </div>
+
+  <div class="thinking-ledger" id="thinking-ledger">
+    <!-- populated by app.js -->
+  </div>
+
+  <div class="thinking-footer">
+    <p class="thinking-elapsed"><span id="thinking-elapsed-val">0.0</span>s</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     PROPOSAL — the assembled trip
+     ============================================================ -->
+<section class="screen screen-proposal" data-screen="proposal">
+  <div class="status-bar">
+    <span class="status-time" id="clock-3">9:41</span>
+    <span class="status-right">●●●</span>
+  </div>
+
+  <nav class="app-nav">
+    <button class="nav-btn" data-action="back-home">×</button>
+    <span class="nav-title"><span class="nav-dot"></span>Luna · proposal</span>
+    <span class="nav-btn ghost">⋯</span>
+  </nav>
+
+  <div class="prop-intent">
+    <h1 class="prop-intent-h" id="prop-intent-h"></h1>
+    <p class="prop-intent-src" id="prop-intent-src"></p>
+  </div>
+
+  <div class="prop-chip-scroll">
+    <div class="prop-chip-track" id="prop-chips">
+      <!-- populated -->
+    </div>
+  </div>
+
+  <div class="prop-trips" id="prop-trips">
+    <!-- populated -->
+  </div>
+
+  <div class="prop-why">
+    <p class="prop-why-t" id="prop-why"></p>
+  </div>
+
+  <div class="prop-hold">
+    <span><span class="hold-dot"></span><span id="prop-hold-text">2 seats held · 14:28 left</span></span>
+    <span>no card charged</span>
+  </div>
+
+  <div class="prop-cta">
+    <div class="prop-cta-total">
+      <p class="prop-cta-l">Estimated total</p>
+      <p class="prop-cta-v"><span id="prop-total">—</span> <span class="muted" id="prop-cap">—</span></p>
+    </div>
+    <button class="prop-cta-agent" data-action="human" title="Get a human">☺</button>
+    <button class="prop-cta-confirm" data-action="confirm">Confirm</button>
+  </div>
+
+  <!-- Dev: reveal disruption scene -->
+  <button class="dev-trigger" data-action="show-disruption" title="(dev) Disruption scene">◈</button>
+</section>
+
+<!-- ============================================================
+     CONFIRMATION — after confirm, the committed itinerary
+     ============================================================ -->
+<section class="screen screen-confirm" data-screen="confirm">
+  <div class="status-bar">
+    <span class="status-time" id="clock-4">9:46</span>
+    <span class="status-right">●●●</span>
+  </div>
+
+  <nav class="app-nav">
+    <button class="nav-btn" data-action="back-home">×</button>
+    <span class="nav-title" id="confirm-id">SPN-4829</span>
+    <span class="nav-btn ghost">⋯</span>
+  </nav>
+
+  <div class="confirm-hero">
+    <div class="confirm-check">✓</div>
+    <h1 class="confirm-h" id="confirm-h">You're set.</h1>
+    <p class="confirm-sub" id="confirm-sub">—</p>
+  </div>
+
+  <div class="confirm-timeline" id="confirm-timeline">
+    <!-- populated -->
+  </div>
+
+  <div class="confirm-watch">
+    <div class="confirm-watch-h">
+      <span class="confirm-watch-ic">◉</span>
+      <p class="confirm-watch-t">Luna will keep watch <span>until you're home</span></p>
+    </div>
+    <div class="watch-row"><span class="watch-dot"></span><span><strong>Schedule changes</strong> on your flights</span></div>
+    <div class="watch-row"><span class="watch-dot"></span><span><strong>Upgrade windows</strong> as they open</span></div>
+    <div class="watch-row"><span class="watch-dot"></span><span><strong>Price drops</strong> and cheaper direct options</span></div>
+    <div class="watch-row"><span class="watch-dot"></span><span><strong>Weather risk</strong> for your arrival</span></div>
+    <p class="watch-promise">You'll hear from us if anything changes. Not before.</p>
+  </div>
+
+  <div class="confirm-credit">
+    <span class="credit-av">◉</span>
+    <p class="credit-t">Handled end-to-end by Luna · <strong>no human touch needed</strong> · <span id="confirm-elapsed">47</span> seconds from intent to itinerary</p>
+  </div>
+
+  <div class="confirm-bot">
+    <button class="btn-outline" data-action="back-home">Done</button>
+    <button class="btn-solid" data-action="show-midflight">Simulate mid-flight change →</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     DISRUPTION — "your flight was canceled, your trip wasn't"
+     Scripted, tap-to-reveal
+     ============================================================ -->
+<section class="screen screen-disruption" data-screen="disruption">
+  <div class="status-bar">
+    <span class="status-time">2:17</span>
+    <span class="status-right">●●●</span>
+  </div>
+
+  <nav class="app-nav">
+    <button class="nav-btn" data-action="back-home">×</button>
+    <span class="nav-title"><span class="nav-dot"></span>Luna · disruption</span>
+    <span class="nav-btn ghost">⋯</span>
+  </nav>
+
+  <div class="disr-hero">
+    <span class="disr-stamp">● Handled while you slept</span>
+    <h1 class="disr-h">Your flight was canceled.<br><em>Your trip wasn't.</em></h1>
+    <p class="disr-sub">Delta 428 · weather advisory in ATL · I rebooked you <strong>three minutes</strong> after the cancellation posted.</p>
+  </div>
+
+  <div class="disr-compare">
+    <p class="disr-seclab">What changed</p>
+    <div class="disr-cblock">
+      <p class="disr-ch">Outbound flight</p>
+      <div class="disr-old">
+        <span class="line"><strong>Delta 428</strong> · Mon 7:00 AM → JFK 3:32 PM</span>
+        <span class="badge">CANCELED</span>
+      </div>
+      <div class="disr-arrow">↓</div>
+      <div class="disr-new">
+        <span class="line"><strong>Delta 1276</strong> · Mon 10:30 AM → JFK 6:58 PM</span>
+        <span class="badge">REBOOKED</span>
+      </div>
+    </div>
+    <div class="disr-cblock">
+      <p class="disr-ch">Ground transport</p>
+      <div class="disr-keep">
+        <span class="keep-dash"></span>
+        <strong>Revel pickup moved</strong> to 7:15 PM
+      </div>
+    </div>
+    <div class="disr-cblock">
+      <p class="disr-ch">Board meeting</p>
+      <div class="disr-keep">
+        <span class="keep-dash"></span>
+        Still arriving <strong>14 hours before 9 AM Tue</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="disr-ledger">
+    <div class="ledger-h">
+      <p class="ledger-t"><span class="ledger-ic">◉</span>What Luna did</p>
+      <span class="ledger-dur">3 min · 6 actions</span>
+    </div>
+    <div class="ledger-log">
+      <div class="ledger-item"><div class="ledger-node alert"></div><p class="ledger-time">2:14 AM</p><p class="ledger-line"><strong>Delta 428 canceled</strong> <span class="muted">· weather advisory, ATL</span></p></div>
+      <div class="ledger-item"><div class="ledger-node done"></div><p class="ledger-time">2:14 AM</p><p class="ledger-line">Evaluated <strong>12 alternate routes</strong> <span class="muted">across 4 carriers</span></p></div>
+      <div class="ledger-item"><div class="ledger-node done"></div><p class="ledger-time">2:15 AM</p><p class="ledger-line">Rebooked on <strong>Delta 1276</strong> <span class="muted">· direct, aisle preserved, $0 fare difference</span></p></div>
+      <div class="ledger-item"><div class="ledger-node done"></div><p class="ledger-time">2:15 AM</p><p class="ledger-line">Moved <strong>Revel pickup</strong> <span class="muted">to match new arrival</span></p></div>
+      <div class="ledger-item"><div class="ledger-node done"></div><p class="ledger-time">2:16 AM</p><p class="ledger-line">Notified <strong>Akshita</strong> <span class="muted">· she's on 428 too, rebooking her now</span></p></div>
+      <div class="ledger-item"><div class="ledger-node done"></div><p class="ledger-time">2:17 AM</p><p class="ledger-line">Updated your <strong>calendar</strong> <span class="muted">and sent new boarding pass to Wallet</span></p></div>
+    </div>
+  </div>
+
+  <div class="disr-watch">
+    <span class="disr-watch-ic">◉</span>
+    <p class="disr-watch-t"><strong>Still watching.</strong> If DL 1276 drops below 85% on-time probability, I'll move you to an earlier direct on American.</p>
+  </div>
+
+  <div class="disr-esc">
+    <a>Something not right? Get a human →</a>
+  </div>
+
+  <div class="disr-bot">
+    <button class="btn-outline" data-action="back-home">Review new plan</button>
+    <button class="btn-solid" data-action="back-home">Got it</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     MIDFLIGHT — "Board meeting moved. Shift everything."
+     LIVE Claude call, parallel replanning ledger
+     ============================================================ -->
+<section class="screen screen-midflight" data-screen="midflight">
+  <div class="status-bar">
+    <span class="status-time">10:47</span>
+    <span class="status-right">✈ ●●●</span>
+  </div>
+
+  <nav class="app-nav">
+    <button class="nav-btn" data-action="back-home">×</button>
+    <span class="nav-title"><span class="nav-dot"></span>Luna · mid-trip</span>
+    <span class="nav-btn ghost">⋯</span>
+  </nav>
+
+  <div class="mid-ctx">
+    <span class="mid-plane">✈</span>
+    Boarded · <strong>DL 1276</strong> · gate departure in 12 min
+  </div>
+
+  <!-- Empty state: user hasn't spoken yet -->
+  <div class="mid-empty" id="mid-empty">
+    <p class="mid-empty-label">Hold mic and say <em>anything you need changed</em></p>
+    <p class="mid-empty-hint">Try: <span class="mid-hint-quote">"Board meeting moved to Wednesday. Shift everything."</span></p>
+  </div>
+
+  <!-- Active state: the quote + live ledger -->
+  <div class="mid-active" id="mid-active" hidden>
+    <div class="mid-quote">
+      <p class="mid-qlabel">You just said</p>
+      <div class="mid-wave">
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <p class="mid-qtext" id="mid-qtext">—</p>
+    </div>
+
+    <div class="mid-rep">
+      <div class="mid-rep-h">
+        <p class="mid-rep-t"><span class="mid-rep-ic">◉</span>Replanning</p>
+        <span class="mid-live"><span class="mid-live-dot"></span>Live · <span id="mid-elapsed">0:00</span></span>
+      </div>
+      <div class="mid-log" id="mid-log"></div>
+    </div>
+
+    <div class="mid-sum" id="mid-sum" hidden></div>
+
+    <div class="mid-policy" id="mid-policy" hidden></div>
+
+    <div class="mid-esc">
+      <a>Something not right? Get a human →</a>
+    </div>
+
+    <div class="mid-bot" id="mid-bot" hidden>
+      <button class="btn-outline" data-action="back-home">Undo</button>
+      <button class="btn-solid" data-action="back-home">Apply · keep my seat</button>
+    </div>
+  </div>
+
+  <!-- Mid-flight voice dock -->
+  <div class="mid-dock" id="mid-dock">
+    <button id="mid-mic-btn" class="mid-mic-btn" aria-label="Hold to speak">
+      <span class="mid-mic-icon">●</span>
+      <span class="mid-mic-wave" id="mid-mic-wave">
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      </span>
+    </button>
+  </div>
+</section>
+
+<!-- Global toast -->
+<div id="toast" class="toast" hidden></div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
