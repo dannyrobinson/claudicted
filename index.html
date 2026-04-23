@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,6 +23,26 @@
 <div class="bg-orb orb1"></div>
 <div class="bg-orb orb2"></div>
 
+<!-- TICKER -->
+<div class="marquee-strip">
+  <div class="marquee-inner">
+    <span class="mi">🔥 <strong>shadcn dashboard</strong> · 2.1k likes</span><span class="msep">·</span>
+    <span class="mi">✨ <strong>AI expense tracker</strong> · trending</span><span class="msep">·</span>
+    <span class="mi">🚀 <strong>one-prompt SaaS landing</strong> · 847 saves</span><span class="msep">·</span>
+    <span class="mi">💀 <strong>full CRM in 40 min</strong> · jaw dropped</span><span class="msep">·</span>
+    <span class="mi">🎯 <strong>Stripe checkout 1 prompt</strong> · viral</span><span class="msep">·</span>
+    <span class="mi">🌊 <strong>animated portfolio</strong> · 3.4k views</span><span class="msep">·</span>
+    <span class="mi">🤖 <strong>Claude wrote my entire API</strong> · unhinged</span><span class="msep">·</span>
+    <span class="mi">🔥 <strong>shadcn dashboard</strong> · 2.1k likes</span><span class="msep">·</span>
+    <span class="mi">✨ <strong>AI expense tracker</strong> · trending</span><span class="msep">·</span>
+    <span class="mi">🚀 <strong>one-prompt SaaS landing</strong> · 847 saves</span><span class="msep">·</span>
+    <span class="mi">💀 <strong>full CRM in 40 min</strong> · jaw dropped</span><span class="msep">·</span>
+    <span class="mi">🎯 <strong>Stripe checkout 1 prompt</strong> · viral</span><span class="msep">·</span>
+    <span class="mi">🌊 <strong>animated portfolio</strong> · 3.4k views</span><span class="msep">·</span>
+    <span class="mi">🤖 <strong>Claude wrote my entire API</strong> · unhinged</span><span class="msep">·</span>
+  </div>
+</div>
+
 <!-- NAV -->
 <nav>
   <a href="#" class="nav-logo">
@@ -36,7 +56,7 @@
     <li><a href="#">Builders</a></li>
   </ul>
   <div class="nav-right">
-    <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle"><span id="toggleEmoji">☀️</span> <span id="toggleLabel">Day</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle"><span id="toggleEmoji">🌙</span> <span id="toggleLabel">Night</span></button>
     <button class="btn-ghost" onclick="openModal()">Share a Vibe</button>
     <button class="btn-primary" id="signInBtn" onclick="openLogin()">Sign In</button>
     <div class="user-nav" id="userNav" style="display:none" onclick="toggleUserMenu()">
@@ -63,69 +83,7 @@
     <button class="btn-lg p" onclick="openModal()">+ Share Your Vibe</button>
     <button class="btn-lg g">Browse Builds →</button>
   </div>
-  <div class="hero-stats">
-    <div class="stat"><div class="stat-num">2<span>k</span>+</div><div class="stat-label">Vibe Coders</div></div>
-    <div class="stat"><div class="stat-num">14<span>k</span></div><div class="stat-label">Projects Shared</div></div>
-    <div class="stat"><div class="stat-num">98<span>%</span></div><div class="stat-label">0 CS Degrees</div></div>
-    <div class="stat"><div class="stat-num">∞</div><div class="stat-label">Prompts Written</div></div>
-  </div>
 </section>
-
-<!-- PROMPT BOX -->
-<div class="prompt-section">
-  <div class="prompt-label">✦ Describe your vibe — Claude will help you share it</div>
-  <div class="prompt-box" id="promptBox">
-    <textarea
-      class="prompt-textarea"
-      id="promptInput"
-      placeholder="Tell me what you built… or describe what you want to build and I'll help you post it."
-      oninput="onPromptInput(this)"
-      onkeydown="handleKey(event)"
-    ></textarea>
-    <div class="prompt-footer">
-      <div class="prompt-chips">
-        <span class="chip" onclick="insertChip('I built a dashboard app in')">📊 dashboard</span>
-        <span class="chip" onclick="insertChip('I made a game with')">🎮 game</span>
-        <span class="chip" onclick="insertChip('I designed a portfolio using')">✨ portfolio</span>
-        <span class="chip" onclick="insertChip('I built a tool that')">🔧 tool</span>
-        <span class="chip" onclick="insertChip('I created something wild —')">🤯 wild</span>
-      </div>
-      <div class="prompt-actions">
-        <span class="char-count" id="charCount">0 / 500</span>
-        <button class="btn-send" id="sendBtn" disabled onclick="sendPrompt()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
-          </svg>
-          Send
-        </button>
-      </div>
-    </div>
-  </div>
-  <div class="ai-response" id="aiResponse">
-    <div class="ai-response-header"><div class="ai-dot"></div>Claude suggests</div>
-    <div id="aiResponseText"></div>
-  </div>
-</div>
-
-<!-- MARQUEE -->
-<div class="marquee-strip">
-  <div class="marquee-inner">
-    <span class="mi">🔥 <strong>shadcn dashboard</strong> · 2.1k likes</span><span class="msep">·</span>
-    <span class="mi">✨ <strong>AI expense tracker</strong> · trending</span><span class="msep">·</span>
-    <span class="mi">🚀 <strong>one-prompt SaaS landing</strong> · 847 saves</span><span class="msep">·</span>
-    <span class="mi">💀 <strong>full CRM in 40 min</strong> · jaw dropped</span><span class="msep">·</span>
-    <span class="mi">🎯 <strong>Stripe checkout 1 prompt</strong> · viral</span><span class="msep">·</span>
-    <span class="mi">🌊 <strong>animated portfolio</strong> · 3.4k views</span><span class="msep">·</span>
-    <span class="mi">🤖 <strong>Claude wrote my entire API</strong> · unhinged</span><span class="msep">·</span>
-    <span class="mi">🔥 <strong>shadcn dashboard</strong> · 2.1k likes</span><span class="msep">·</span>
-    <span class="mi">✨ <strong>AI expense tracker</strong> · trending</span><span class="msep">·</span>
-    <span class="mi">🚀 <strong>one-prompt SaaS landing</strong> · 847 saves</span><span class="msep">·</span>
-    <span class="mi">💀 <strong>full CRM in 40 min</strong> · jaw dropped</span><span class="msep">·</span>
-    <span class="mi">🎯 <strong>Stripe checkout 1 prompt</strong> · viral</span><span class="msep">·</span>
-    <span class="mi">🌊 <strong>animated portfolio</strong> · 3.4k views</span><span class="msep">·</span>
-    <span class="mi">🤖 <strong>Claude wrote my entire API</strong> · unhinged</span><span class="msep">·</span>
-  </div>
-</div>
 
 <!-- CONTENT -->
 <div class="content">
